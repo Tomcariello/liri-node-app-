@@ -1,11 +1,11 @@
 var programToRun = (process.argv[2]);
 var featureRequested = (process.argv[3]);
 
-if (programToRun == "my-tweets") {
+if (programToRun == "twitter") {
 	getTweets(featureRequested);
-} else if (programToRun == "spotify-this-song") {
+} else if (programToRun == "spotify") {
 	getSpotify(featureRequested);
-} else if (programToRun == "movie-this") {
+} else if (programToRun == "omdb") {
 	getMoviePlot(featureRequested);
 
 } else {
