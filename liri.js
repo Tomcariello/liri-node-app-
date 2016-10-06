@@ -13,33 +13,48 @@ if (programToRun == "twitter") {
 }
 
 function getTweets(featureRequested) {
+
+	//https://www.npmjs.com/package/node-twitter-api
+
+	
 	console.log("Twitter!");
+
+	var twitterAPI = require('node-twitter-api');
+
+	var twitter = new twitterAPI({
+    consumerKey: 'your consumer Key',
+    consumerSecret: 'your consumer secret',
+    callback: 'http://yoururl.tld/something'
+});
+
 }
 
 function getSpotify(featureRequested) {
 	console.log("Spotify!");
 }
 
-
 function getMoviePlot(featureRequested) {
-	var http = require('http');
+
+	if (featureRequested == null) {
+		featureRequested = "Mr. Nobody";
+	}
+
+	var request = require('request');
 	var omdbUrl = "http://www.omdbapi.com/?t=" + featureRequested;
-	
-	var req = http.request(omdbUrl, (res) => {
-	  res.setEncoding('utf8');
-	  res.on('data', (response) => {
-	    var JSONresult = JSON.parse(response);
-	  	console.log("The plot of " + featureRequested + " is: " + JSONresult.Plot);
-	  });
-	  res.on('end', () => {
-	  });
-	});
 
-	req.on('error', (e) => {
-	  console.log(`There was a problem with request: ${e.message}`);
-	});
-
-	// write data to request body
-	req.write('postdata');
-	req.end();
+	request(omdbUrl, function (error, response, body) {
+  	if (!error && response.statusCode == 200) {
+    		var JSONresult = JSON.parse(body);
+		    // console.log(JSONresult);
+		    console.log("Title: " + JSONresult.Title);
+		    console.log("Release Date: " + JSONresult.Year);
+	    	console.log("Rating: " + JSONresult.Rated);
+	    	console.log("Country: " + JSONresult.Country);
+	    	console.log("Language: " + JSONresult.Language);
+	    	console.log("Plot: " + JSONresult.Plot);
+		  	console.log("Actors: " + JSONresult.Actors);
+		  	console.log("IMDB Rating: " + JSONresult.imdbRating);
+		  	console.log("IMDB URL: " + JSONresult.Poster);
+ 		}
+	})
 }
