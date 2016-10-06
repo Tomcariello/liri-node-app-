@@ -1,7 +1,7 @@
 {
   "name": "liri-node-app-",
   "version": "1.0.0",
-  "description": "",
+  "description": "Packages included:\r npm install node-twitter-api\r npm install request\r npn init",
   "main": "keys.js",
   "dependencies": {
     "request": "^2.75.0"

@@ -14,18 +14,28 @@ if (programToRun == "twitter") {
 
 function getTweets(featureRequested) {
 
-	//https://www.npmjs.com/package/node-twitter-api
+  var Twitter = require('twitter');
+  var keys = require('./keys.js');
 
-	
-	console.log("Twitter!");
+  console.log("keys is a " + typeof(keys));
 
-	var twitterAPI = require('node-twitter-api');
+  //this works fine when i hardcode the keys. Need to parse them out of keys.js
 
-	var twitter = new twitterAPI({
-    consumerKey: 'your consumer Key',
-    consumerSecret: 'your consumer secret',
-    callback: 'http://yoururl.tld/something'
-});
+  var client = new Twitter({
+    consumer_key: keys.consumer_key,
+    consumer_secret: keys.consumer_secret,
+    access_token_key: keys.access_token_key,
+    access_token_secret: keys.access_token_secret
+  });
+   
+  var params = {screen_name: 'tomcariello'};
+  client.get('statuses/user_timeline', params, function(error, tweets, response) {
+    if (!error) {
+      for (var i=0; i < tweets.length; i++) {
+        console.log(tweets[i].text);
+      }
+    }
+  });
 
 }
 
