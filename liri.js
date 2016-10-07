@@ -13,11 +13,12 @@ if (programToRun == "twitter") {
 }
 
 function getTweets(featureRequested) {
+	console.log("In the twitter function.");
+	var Twitter = require('twitter');
+	var keys = require('./keys.js');
 
-  var Twitter = require('twitter');
-  var keys = require('./keys.js');
-
-  console.log("keys is a " + typeof(keys));
+	console.log('got the file ' + typeof(keys));
+ 	console.log("keys is a " + keys.length);
 
   //this works fine when i hardcode the keys. Need to parse them out of keys.js
 
@@ -27,6 +28,8 @@ function getTweets(featureRequested) {
     access_token_key: keys.access_token_key,
     access_token_secret: keys.access_token_secret
   });
+
+  console.log('created new twitter, ' + client);
    
   var params = {screen_name: 'tomcariello'};
   client.get('statuses/user_timeline', params, function(error, tweets, response) {
