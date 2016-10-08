@@ -23,7 +23,7 @@ function getTweets(featureRequested) {
   client.get('statuses/user_timeline', params, function(error, tweets, response) {
     if (!error) {
       for (var i=0; i < tweets.length; i++) {
-        console.log(tweets[i].text);
+        console.log(tweets[i].created_at + ": " + tweets[i].text);
       }
     }
   });
@@ -39,9 +39,9 @@ function getSpotify(featureRequested) {
 
   var spotifyKeys = new SpotifyWebApi(keys.SpotifyWebApi);
 
-spotifyKeys.getArtistAlbums('43ZHCT0cAZBISjO8DG9PnE')
+spotifyKeys.searchTracks(featureRequested)
   .then(function(data) {
-    console.log('Artist albums', data.body);
+    console.log('Search by ' + featureRequested + ": " + JSON.stringify(data.body.tracks.items[0].album.name, null, 2) + " by " + JSON.stringify(data.body.tracks.items[0].artists[0].name, null, 2));
   }, function(err) {
     console.error(err);
   });
