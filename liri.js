@@ -13,24 +13,12 @@ if (programToRun == "twitter") {
 }
 
 function getTweets(featureRequested) {
-	console.log("In the twitter function.");
+	// console.log("In the twitter function.");
 	var Twitter = require('twitter');
 	var keys = require('./keys.js');
 
-	console.log('got the file ' + typeof(keys));
- 	console.log("keys is a " + keys.length);
+  var client = new Twitter(keys.twitterKeys);
 
-  //this works fine when i hardcode the keys. Need to parse them out of keys.js
-
-  var client = new Twitter({
-    consumer_key: keys.consumer_key,
-    consumer_secret: keys.consumer_secret,
-    access_token_key: keys.access_token_key,
-    access_token_secret: keys.access_token_secret
-  });
-
-  console.log('created new twitter, ' + client);
-   
   var params = {screen_name: 'tomcariello'};
   client.get('statuses/user_timeline', params, function(error, tweets, response) {
     if (!error) {
@@ -44,6 +32,20 @@ function getTweets(featureRequested) {
 
 function getSpotify(featureRequested) {
 	console.log("Spotify!");
+
+  var keys = require('./keys.js');
+
+  var SpotifyWebApi = require('spotify-web-api-node');
+
+  var spotifyKeys = new SpotifyWebApi(keys.SpotifyWebApi);
+
+spotifyKeys.getArtistAlbums('43ZHCT0cAZBISjO8DG9PnE')
+  .then(function(data) {
+    console.log('Artist albums', data.body);
+  }, function(err) {
+    console.error(err);
+  });
+
 }
 
 function getMoviePlot(featureRequested) {
