@@ -4,7 +4,9 @@
   "description": "Packages included:\r npm install node-twitter-api\r npm install request\r npn init",
   "main": "keys.js",
   "dependencies": {
-    "request": "^2.75.0"
+    "request": "^2.75.0",
+    "spotify-web-api-node": "^2.3.5",
+    "twitter": "^1.4.0"
   },
   "devDependencies": {},
   "scripts": {
@@ -15,7 +17,7 @@
     "url": "git+https://github.com/Tomcariello/liri-node-app-.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Tom Cariello",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Tomcariello/liri-node-app-/issues"

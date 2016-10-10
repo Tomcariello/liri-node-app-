@@ -4,16 +4,22 @@ var featureRequested = (process.argv[3]);
 if (programToRun == "twitter") {
 	getTweets(featureRequested);
 } else if (programToRun == "spotify") {
-	getSpotify(featureRequested);
+  	 getSpotify(featureRequested);
 } else if (programToRun == "omdb") {
 	getMoviePlot(featureRequested);
+} else if (programToRun == "do-what-it-says") {
+  var fs = require('fs');
 
+  fs.readFile('random.txt', 'utf8', function(err, data) {
+   
+   featureRequested = data;
+    getSpotify(featureRequested);
+  })
 } else {
 	console.log("Maybe you could give me clearer instructions...\nType omdb followed by a movie title for the plot.\nType Twitter to see my most recent tweets.\nType Spotify to get some random information from the Spotify API.\n");
 }
 
 function getTweets(featureRequested) {
-	// console.log("In the twitter function.");
 	var Twitter = require('twitter');
 	var keys = require('./keys.js');
 
@@ -23,7 +29,8 @@ function getTweets(featureRequested) {
   client.get('statuses/user_timeline', params, function(error, tweets, response) {
     if (!error) {
       for (var i=0; i < tweets.length; i++) {
-        console.log(tweets[i].created_at + ": " + tweets[i].text);
+        var humanTime = tweets[i].created_at.split(" ");
+        console.log(humanTime[1] + " " + humanTime[2] + " " + humanTime[5] + ": " + tweets[i].text);
       }
     }
   });
@@ -31,7 +38,9 @@ function getTweets(featureRequested) {
 }
 
 function getSpotify(featureRequested) {
-	console.log("Spotify!");
+  if (featureRequested == null) {
+    featureRequested = "I want it that way";
+  }
 
   var keys = require('./keys.js');
 
@@ -41,11 +50,13 @@ function getSpotify(featureRequested) {
 
 spotifyKeys.searchTracks(featureRequested)
   .then(function(data) {
-    console.log('Search by ' + featureRequested + ": " + JSON.stringify(data.body.tracks.items[0].album.name, null, 2) + " by " + JSON.stringify(data.body.tracks.items[0].artists[0].name, null, 2));
+    console.log('Artist: ' + JSON.stringify(data.body.tracks.items[0].artists[0].name, null, 2));
+    console.log('Song Title:  ' + featureRequested);
+    console.log('Preview Link:  ' + JSON.stringify(data.body.tracks.items[0].preview_url, null, 2));
+    console.log('Album Name:  ' + JSON.stringify(data.body.tracks.items[0].album.name, null, 2));
   }, function(err) {
     console.error(err);
   });
-
 }
 
 function getMoviePlot(featureRequested) {
